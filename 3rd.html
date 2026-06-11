@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Album</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', system-ui;
+            background: radial-gradient(circle at top, rgba(255, 187, 255, 0.18), transparent 20%),
+                radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.45), transparent 8%),
+                radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.22), transparent 6%),
+                linear-gradient(180deg, #3f1c6f 0%, #2a1052 30%, #180a30 65%, #0b0616 100%);
+            color: white;
+            min-height: 100vh;
+            background-attachment: fixed;
+            background-size: cover;
+            position: relative;
+            overflow-x: hidden;
+            background-image: url("2789327.jpg");
+
+            /* Replace with your image pa
+                /* Scale to cover entire area */
+            background-position: center;
+            /* Center the image */
+            background-repeat: no-repeat;
+            /* Prevent tiling */
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.35), transparent 8%),
+                radial-gradient(circle at 80% 22%, rgba(255, 255, 255, 0.28), transparent 6%),
+                radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.18), transparent 5%),
+                radial-gradient(circle at 60% 8%, rgba(255, 255, 255, 0.22), transparent 4%);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            background: rgba(26, 16, 51, 0.88);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #ff66aa;
+        }
+
+        .logo {
+            font-size: 22px;
+            color: #ff99cc;
+        }
+
+        .back {
+            color: #ff99cc;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .album-container {
+            padding: 40px 20px;
+            text-align: center;
+            ;
+        }
+
+
+        .album-container h1 {
+            color: #ffccdd;
+            -webkit-text-stroke: black 1px
+        }
+
+        .album-container .subtitle {
+            color: black;
+        }
+
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #ffccdd;
+        }
+
+        .subtitle {
+            margin-bottom: 40px;
+            color: #c4a0ff;
+            font-size: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #1f1638;
+            border: 4px solid #ff99cc;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 6px 6px 0 #000;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .card-info {
+            padding: 15px;
+            background: #2a1b4a;
+        }
+
+        .card-info h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .likes {
+            color: #ff66aa;
+        }
+
+        .pagination {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .pagination button {
+            padding: 14px 22px;
+            background: #4a2c6d;
+            border: 3px solid #ff99cc;
+            color: white;
+            font-family: 'Press Start 2P';
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover {
+            background: #ff99cc;
+            color: #4a2c6d;
+        }
+
+        .pagination button.active {
+            background: #ff66aa;
+            border-color: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">♥ Pixel Love</div>
+        <a href="secondpage.html" class="back">← Back</a>
+        <div>♥</div>
+    </header>
+
+    <div class="album-container">
+        <h1>Our Album</h1>
+        <p class="subtitle">A collection of our favorite moments</p>
+
+        <div class="grid" id="photoGrid">
+            <!-- JavaScript will fill this -->
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- JavaScript will generate buttons -->
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="Vietsub  Sanctuary - Joji  Lyrics Video.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button class="music-btn" id="musicToggle">🔊 Music ON</button>
+
+    <script>
+        // ==================== ALBUM DATA ====================
+        const albums = [
+            // Page 1
+            [
+                { src: "1.png", title: "Points", likes: 24 },
+                { src: "2.jpg", title: "Points", likes: 18 },
+                { src: "3.jpg", title: "Points", likes: 15 },
+                { src: "4.jpg", title: "Points", likes: 20 },
+                { src: "5.jpg", title: "Points", likes: 16 },
+                { src: "6.jpg", title: "Points", likes: 22 }
+            ],
+            // Page 2 (Add more images here)
+            [
+                { src: "7.jpg", title: "Cutiee", likes: 27 },
+                { src: "8.jpg", title: "Trend Pose", likes: 31 },
+                { src: "9.jpg", title: "After Photoshoot", likes: 19 },
+                { src: "10.jpg", title: "Coffee Date", likes: 23 },
+                { src: "11.jpg", title: "Cute sleepy", likes: 14 },
+                { src: "n7.jpg", title: "Bonding With my Fam", likes: 29 }
+            ],
+            // Page 3 (Add more images here)
+            [
+                { src: "n1.jpg", title: "Points", likes: 21 },
+                { src: "n2.jpg", title: "Points", likes: 35 },
+                { src: "n3.jpg", title: "Points", likes: 17 },
+                { src: "n4.jpg", title: "Points", likes: 26 },
+                { src: "n5.jpg", title: "Points", likes: 22 },
+                { src: "n6.jpg", title: "Points", likes: 30 }
+            ]
+        ];
+
+        let currentPage = 0;
+
+        function renderPage(page) {
+            const grid = document.getElementById('photoGrid');
+            grid.innerHTML = '';
+
+            albums[page].forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${item.src}" alt="${item.title}">
+                    <div class="card-info">
+                        <h3>${item.title}</h3>
+                        <span class="likes">♥ ${item.likes}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            container.innerHTML = '';
+
+            for (let i = 0; i < albums.length; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i + 1;
+                if (i === currentPage) btn.classList.add('active');
+
+                btn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderPage(currentPage);
+                    renderPagination();
+                });
+                container.appendChild(btn);
+            }
+        }
+
+        // Initialize
+        renderPage(currentPage);
+        renderPagination();
+    </script>
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('musicToggle');
+
+        // Try to autoplay
+        function playMusic() {
+            audio.play().catch(() => {
+                // Autoplay blocked - will wait for user interaction
+                console.log("Autoplay prevented by browser");
+            });
+        }
+
+        // Start music when page loads
+        window.addEventListener('load', () => {
+            playMusic();
+        });
+
+        // Toggle music on/off
+        toggleBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                toggleBtn.textContent = "🔊 Music ON";
+            } else {
+                audio.pause();
+                toggleBtn.textContent = "🔇 Music OFF";
+            }
+        });
+
+        // Fallback: Play on first user click anywhere (helps bypass autoplay restrictions)
+        document.addEventListener('click', () => {
+            if (audio.paused) {
+                playMusic();
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

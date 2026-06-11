@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order A Man • John Carlo Sinio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --pink: #ff1493;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #ffe4e1 0%, #fff0f5 100%);
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(255 20 147 / 0.25);
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 28px;
+            animation: floatHeart 3s ease-in-out forwards;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(0.6);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-180px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #ff1493;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+    <!-- HEADER -->
+    <header class="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-pink-500 rounded-2xl flex items-center justify-center text-white text-3xl">
+                        💖</div>
+                    <div>
+                        <span class="logo-font text-3xl font-bold tracking-tight text-pink-600">Order A Man</span>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="flex-1 max-w-xl mx-8">
+                    <div class="relative">
+                        <input id="search" type="text" placeholder="Search for your perfect man... 💕"
+                            class="w-full pl-12 pr-6 py-3 border border-gray-200 rounded-3xl focus:outline-none focus:border-pink-400 text-lg">
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center gap-8 text-2xl">
+                    <button onclick="toggleWishlist()" class="hover:text-pink-500 transition-colors">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                    <button onclick="showCart()" class="relative hover:text-pink-500 transition-colors">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                        <span id="cart-count"
+                            class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                    </button>
+                    <button text=onclick="alert  ('Welcome back, beautiful ❤️')"
+                        class="hover:text-pink-500 transition-colors">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </button>
+                    <h2>Kylie Miguel</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="bg-white border-t">
+            <div class="max-w-7xl mx-auto px-6 py-3 flex gap-8 text-sm font-medium">
+                <a href="#" onclick="navigateTo('home')" class="nav-link text-pink-500">Home</a>
+                <a href="#" onclick="navigateTo('shop')" class="nav-link">Shop</a>
+                <a href="#" class="nav-link">Boyfriend Collection</a>
+                <a href="#" class="nav-link">Premium Edition</a>
+                <a href="#" class="nav-link text-pink-500 font-semibold">Limited Stock: 1 Left ❤️</a>
+                <a href="secondpage.html" class="nav-link  font-semibold">Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+        <!-- HERO / PRODUCT SECTION -->
+        <section id="home-section" class="hero-bg py-12">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Product Image -->
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-xl">
+                        <div class="relative">
+                            <img id="main-image" src="16.jpg" alt="John Carlo Sinio"
+                                class="w-full h-auto object-cover cursor-pointer" onclick="showProductModal()">
+                            <div
+                                class="absolute top-4 right-4 bg-white px-4 py-1 rounded-2xl text-sm font-semibold text-pink-500 shadow flex items-center gap-1">
+                                <span class="text-green-500">●</span> In Stock
+                            </div>
+                        </div>
+
+                        <!-- Thumbnails -->
+                        <div class="flex gap-3 p-6 bg-white">
+                            <img src="13.jpg" onclick="changeImage(this)"
+                                class="w-20 h-20 object-cover rounded-2xl cursor-pointer border-2 border-pink-400">
+                            <img src="14.jpg" onclick="changeImage(this)"
+                                class="w-20 h-20 object-cover rounded-2xl cursor-pointer hover:border-pink-400">
+                            <img src="15.jpg" onclick="changeImage(this)"
+                                class="w-20 h-20 object-cover rounded-2xl cursor-pointer hover:border-pink-400">
+                        </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <span
+                                    class="px-4 py-1 bg-pink-100 text-pink-600 text-xs font-bold rounded-full">BOYFRIEND
+                                    EDITION</span>
+                                <span
+                                    class="px-4 py-1 bg-purple-100 text-purple-600 text-xs font-bold rounded-full">PREMIUM
+                                    HUMAN</span>
+                            </div>
+                            <h1 class="text-5xl font-bold logo-font text-gray-900">John Carlo Sinio</h1>
+                            <div class="flex items-center gap-2 mt-4">
+                                <div class="flex text-2xl text-yellow-400">★★★★★</div>
+                                <span class="font-semibold text-gray-600">(5.0) • 1,337 Reviews</span>
+                            </div>
+                        </div>
+
+                        <div class="text-5xl font-bold text-pink-500">FREE <span
+                                class="text-2xl line-through text-gray-400">₱999,999</span></div>
+
+                        <p class="text-2xl text-gray-700">"Not for sale. Already reserved for someone special ❤️"</p>
+
+                        <div class="flex gap-4">
+                            <button onclick="addToCart()"
+                                class="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-6 text-xl rounded-3xl shadow-lg transition-all active:scale-95">
+                                💖 ADD TO CART
+                            </button>
+                            <button onclick="showProductModal()"
+                                class="flex-1 border-2 border-pink-500 text-pink-500 hover:bg-pink-50 font-semibold py-6 text-xl rounded-3xl transition-all">
+                                VIEW FULL DETAILS
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 text-center text-sm">
+                            <div class="bg-white p-4 rounded-2xl shadow">
+                                <div class="font-bold text-pink-500">24/7</div>
+                                <div class="text-gray-500">Hugs Available</div>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl shadow">
+                                <div class="font-bold text-pink-500">∞</div>
+                                <div class="text-gray-500">Loyalty</div>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl shadow">
+                                <div class="font-bold text-pink-500">❤️</div>
+                                <div class="text-gray-500">Yours Only</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PRODUCT MODAL -->
+    <div id="product-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+        <div class="bg-white max-w-2xl w-full mx-4 rounded-3xl overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start">
+                    <h2 class="text-4xl font-bold logo-font">John Carlo Sinio</h2>
+                    <button onclick="hideProductModal()" class="text-4xl text-gray-400 hover:text-gray-600">×</button>
+                </div>
+
+                <div class="my-8 space-y-6">
+                    <h3 class="font-semibold text-xl">What makes him special:</h3>
+                    <ul class="grid grid-cols-2 gap-4">
+                        <li class="flex items-center gap-3"><span class="text-2xl">❤️</span> Extremely Loyal</li>
+                        <li class="flex items-center gap-3"><span class="text-2xl">😂</span> Hilariously Funny</li>
+                        <li class="flex items-center gap-3"><span class="text-2xl">🤗</span> Professional Hugger</li>
+                        <li class="flex items-center gap-3"><span class="text-2xl">📱</span> Good Morning Texter</li>
+                        <li class="flex items-center gap-3"><span class="text-2xl">🧠</span> Great Listener</li>
+                        <li class="flex items-center gap-3"><span class="text-2xl">🌟</span> Lifetime Companion</li>
+                    </ul>
+                </div>
+
+                <button onclick="addToCart(); hideProductModal();"
+                    class="w-full bg-pink-500 hover:bg-pink-600 text-white py-6 rounded-3xl text-xl font-semibold">
+                    💖 CLAIM THIS MAN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-sidebar"
+        class="hidden fixed right-0 top-0 h-full w-96 bg-white shadow-2xl z-[200] transform translate-x-full transition-transform">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h3 class="text-2xl font-bold">Your Cart</h3>
+            <button onclick="hideCart()" class="text-3xl">×</button>
+        </div>
+
+        <div class="p-6" id="cart-items">
+            <!-- JS will fill this -->
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0 p-6 border-t bg-white">
+            <div class="flex justify-between text-xl mb-6">
+                <span>Total</span>
+                <span class="font-bold text-pink-500">FREE</span>
+            </div>
+            <button onclick="proceedToCheckout()"
+                class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-6 rounded-3xl text-xl font-semibold">
+                PROCEED TO FOREVER →
+            </button>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[300]">
+        <div class="text-center text-white max-w-md px-6">
+
+            <h1 class="text-5xl font-bold mb-6">Order Confirmed!</h1>
+            <p class="text-3xl mb-8">You have successfully claimed</p>
+            <p class="text-6xl font-bold logo-font text-pink-400 mb-10">John Carlo Sinio</p>
+            <p class="text-xl mb-12">Thank you for choosing this limited edition boyfriend.<br>Delivery: Personally with
+                love ❤️</p>
+
+            <button onclick="window.location.reload()"
+                class="bg-white text-pink-600 px-16 py-6 rounded-3xl text-2xl font-bold hover:bg-pink-100">
+                Start Our Love Story →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let cartCount = 0;
+        let cart = [];
+
+        function createFloatingHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.textContent = '💖';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        function addToCart() {
+            cartCount++;
+            document.getElementById('cart-count').textContent = cartCount;
+
+            // Add to cart array
+            cart = [{
+                name: "John Carlo Sinio",
+                price: "FREE",
+                qty: 1
+            }];
+
+            // Animation
+            const rect = document.querySelector('#main-image').getBoundingClientRect();
+            createFloatingHeart(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+            // Show message
+            const msg = document.createElement('div');
+            msg.style.position = 'fixed';
+            msg.style.bottom = '30px';
+            msg.style.left = '50%';
+            msg.style.transform = 'translateX(-50%)';
+            msg.style.background = '#ff1493';
+            msg.style.color = 'white';
+            msg.style.padding = '16px 32px';
+            msg.style.borderRadius = '9999px';
+            msg.style.fontWeight = 'bold';
+            msg.style.zIndex = '1000';
+            msg.textContent = "Added to cart! Congratulations ❤️";
+            document.body.appendChild(msg);
+
+            setTimeout(() => msg.remove(), 2500);
+        }
+
+        function showCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.classList.remove('hidden');
+            sidebar.style.transform = 'translateX(0)';
+
+            const container = document.getElementById('cart-items');
+            container.innerHTML = `
+                <div class="flex gap-6 bg-gray-50 p-6 rounded-3xl">
+                    <img src="16.jpg" class="w-24 h-28 object-cover rounded-2xl">
+                    <div>
+                        <h4 class="font-bold text-xl">John Carlo Sinio</h4>
+                        <p class="text-pink-500 font-semibold">Boyfriend Edition</p>
+                        <p class="text-3xl font-bold mt-4">FREE</p>
+                        <div class="flex items-center gap-4 mt-6">
+                            <button class="w-8 h-8 border rounded-full">-</button>
+                            <span class="font-semibold text-xl">1</span>
+                            <button class="w-8 h-8 border rounded-full">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function hideCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.style.transform = 'translateX(100%)';
+            setTimeout(() => sidebar.classList.add('hidden'), 400);
+        }
+
+        function proceedToCheckout() {
+            hideCart();
+            setTimeout(() => {
+                document.getElementById('success-modal').classList.remove('hidden');
+            }, 600);
+        }
+
+        function showProductModal() {
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function hideProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function changeImage(el) {
+            document.getElementById('main-image').src = el.src;
+        }
+
+        function toggleWishlist() {
+            alert("Added to wishlist 💕\n(He already belongs to you anyway)");
+        }
+
+        function navigateTo(page) {
+            alert("Welcome to the " + page + " page 💖\nOnly one man available in this store!");
+        }
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "/" && document.getElementById('search') !== document.activeElement) {
+                e.preventDefault();
+                document.getElementById('search').focus();
+            }
+        });
+
+        // Tailwind script already loaded
+        console.log("%cOrder A Man - For the love of your life 💖", "color: #ff1493; font-size: 18px; font-weight: bold");
+    </script>
+</body>
+
+</html>

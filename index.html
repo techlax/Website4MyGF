@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Lock Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .iphone {
+            width: 380px;
+            height: 760px;
+            background: #111;
+            border-radius: 55px;
+            box-shadow: 0 0 0 12px #111, 0 0 0 18px #222;
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #000;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: url('sbg.jpg') center/cover no-repeat;
+            /* Replace with your photo */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 28px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .time {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .clock-display {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .clock-time {
+            font-size: 72px;
+            font-weight: 200;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .clock-date {
+            font-size: 16px;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        .notification {
+            position: absolute;
+            top: 58%;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #111;
+            border-radius: 18px;
+            padding: 14px 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 30;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .swipe-area {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 9999px;
+            cursor: grab;
+        }
+
+        .swipe-text {
+            position: absolute;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            white-space: nowrap;
+        }
+
+        .passcode-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 50;
+            transition: all 0.6s ease;
+        }
+
+        .dots {
+            display: flex;
+            gap: 18px;
+            margin: 40px 0;
+        }
+
+        .dot {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .dot.filled {
+            background: white;
+            border-color: white;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 280px;
+        }
+
+        .key {
+            width: 78px;
+            height: 78px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 400;
+            backdrop-filter: blur(10px);
+            transition: all 0.1s;
+        }
+
+        .key:active {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="iphone">
+        <div class="screen" id="lockScreen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="time" id="statusTime">4:52</div>
+                <div class="flex items-center gap-4">
+                    <span>●●●</span>
+                    <span>51%</span>
+                    <i class="fa-solid fa-battery-three-quarters"></i>
+                </div>
+            </div>
+
+            <!-- Clock Display in Middle -->
+            <div class="clock-display" id="clockDisplay">
+                <div class="clock-time" id="clockTime">4:52</div>
+                <div class="clock-date" id="clockDate">Thursday, June 11</div>
+            </div>
+
+            <!-- Notification 1 -->
+            <div class="notification" id="notification">
+                <div class="flex items-start gap-3">
+                    <div
+                        class="w-10 h-10 bg-white-500 rounded-2xl flex items-center justify-center text-white text-2xl">
+                        <img src="mess.png" alt="">
+                    </div>
+                    <div>
+                        <div class="font-semibold">Notification lovey</div>
+                        <div class="text-sm text-gray-700">Hi Love :)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification 2 -->
+            <div class="notification" id="notification2">
+                <div class="flex items-start gap-3">
+                    <div
+                        class="w-10 h-10 bg-white-500 rounded-2xl flex items-center justify-center text-white text-2xl">
+                        <img src="mess.png" alt="">
+                    </div>
+                    <div>
+                        <div class="font-semibold">Notification Lovey</div>
+                        <div class="text-sm text-gray-700">Happy Monthsarry Love</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification 3 -->
+            <div class="notification" id="notification3">
+                <div class="flex items-start gap-3">
+                    <div
+                        class="w-10 h-10 bg-white-500 rounded-2xl flex items-center justify-center text-white text-2xl">
+                        <img src="mess.png" alt="">
+                    </div>
+                    <div>
+                        <div class="font-semibold">Notification Lovey</div>
+                        <div class="text-sm text-gray-700">I hope you like this :)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification" id="notification4">
+                <div class="flex items-start gap-3">
+                    <div
+                        class="w-10 h-10 bg-white-500 rounded-2xl flex items-center justify-center text-white text-2xl">
+                        <img src="mess.png" alt="">
+                    </div>
+                    <div>
+                        <div class="font-semibold">Notification Lovey</div>
+                        <div class="text-sm text-gray-700">Go, swipe mo lang hehehe!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swipe Indicator -->
+            <div class="swipe-text">Swipe up to unlock</div>
+            <div class="swipe-area" id="swipeHandle"></div>
+
+            <!-- Photo Overlay -->
+            <div class="absolute bottom-12 left-0 right-0 text-center text-white">
+                <p class="text-sm font-medium" style="text-shadow: 0 2px 10px rgba(0,0,0,0.7);">
+                    Thursday, June 11
+                </p>
+            </div>
+        </div>
+
+        <!-- Notification Sound -->
+        <audio id="notificationSound" preload="auto">
+            <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA=="
+                type="audio/wav">
+        </audio>
+
+        <!-- PASSCODE SCREEN -->
+        <div class="passcode-screen" id="passcodeScreen">
+            <div class="text-2xl font-medium mb-8">Enter Passcode</div>
+            <div class="dots" id="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <div class="keypad">
+                <div class="key" data-value="1">1</div>
+                <div class="key" data-value="2">2</div>
+                <div class="key" data-value="3">3</div>
+                <div class="key" data-value="4">4</div>
+                <div class="key" data-value="5">5</div>
+                <div class="key" data-value="6">6</div>
+                <div class="key" data-value="7">7</div>
+                <div class="key" data-value="8">8</div>
+                <div class="key" data-value="9">9</div>
+                <div></div>
+                <div class="key" data-value="0">0</div>
+                <div class="key text-3xl" onclick="deleteDigit()">⌫</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let enteredPin = "";
+        const correctPin = "101126";
+        let isUnlocked = false;
+
+        const dots = document.querySelectorAll('.dot');
+        const passcodeScreen = document.getElementById('passcodeScreen');
+        const lockScreen = document.getElementById('lockScreen');
+        const notification = document.getElementById('notification');
+        const clockTime = document.getElementById('clockTime');
+        const clockDate = document.getElementById('clockDate');
+        const statusTime = document.getElementById('statusTime');
+        const notification2 = document.getElementById('notification2');
+        const notification3 = document.getElementById('notification3');
+
+        // Update clock every second
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+
+            clockTime.textContent = timeString;
+            statusTime.textContent = timeString;
+
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+
+            clockDate.textContent = `${day}, ${month} ${date}`;
+        }
+
+        // Initial update and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Show Notification 1 after 3 seconds
+        setTimeout(() => {
+            notification.style.display = 'block';
+            playNotificationSound();
+        }, 3000);
+
+        // Show Notification 2 after 6 seconds
+        setTimeout(() => {
+            notification2.style.display = 'block';
+            playNotificationSound();
+        }, 6000);
+
+        // Show Notification 3 after 9 seconds
+        setTimeout(() => {
+            notification3.style.display = 'block';
+            playNotificationSound();
+        }, 9000);
+
+        // Show Notification 4 after 9 seconds
+        setTimeout(() => {
+            notification4.style.display = 'block';
+            playNotificationSound();
+        }, 12000);
+
+        // Function to play notification sound with Web Audio API
+        function playNotificationSound() {
+            // Create oscillator for iPhone-like notification sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            // Set up the sound (two quick beeps like iPhone notification)
+            oscillator.frequency.value = 1000; // Frequency in Hz
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+
+            // Second beep
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode2 = audioContext.createGain();
+
+            oscillator2.connect(gainNode2);
+            gainNode2.connect(audioContext.destination);
+
+            oscillator2.frequency.value = 1200;
+            oscillator2.type = 'sine';
+
+            gainNode2.gain.setValueAtTime(0.3, audioContext.currentTime + 0.12);
+            gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.22);
+
+            oscillator2.start(audioContext.currentTime + 0.12);
+            oscillator2.stop(audioContext.currentTime + 0.22);
+        }
+
+        // Swipe up gesture
+        let startY;
+        const swipeHandle = document.getElementById('swipeHandle');
+
+        swipeHandle.addEventListener('mousedown', (e) => {
+            startY = e.clientY;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!startY) return;
+            if (e.clientY - startY < -80) {
+                showPasscode();
+                startY = null;
+            }
+        });
+
+        document.addEventListener('mouseup', () => startY = null);
+
+        // Touch support for mobile
+        swipeHandle.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        });
+
+        swipeHandle.addEventListener('touchmove', (e) => {
+            if (!startY) return;
+            if (startY - e.touches[0].clientY > 80) {
+                showPasscode();
+                startY = null;
+            }
+        });
+
+        function showPasscode() {
+            lockScreen.style.opacity = '0';
+            setTimeout(() => {
+                passcodeScreen.style.display = 'flex';
+                lockScreen.style.display = 'none';
+            }, 400);
+        }
+
+        // Keypad
+        document.querySelectorAll('.key[data-value]').forEach(key => {
+            key.addEventListener('click', () => {
+                if (enteredPin.length < 6) {
+                    enteredPin += key.dataset.value;
+                    updateDots();
+
+                    if (enteredPin.length === 6) {
+                        setTimeout(checkPin, 200);
+                    }
+                }
+            });
+        });
+
+        function updateDots() {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('filled', i < enteredPin.length);
+            });
+        }
+
+        function deleteDigit() {
+            enteredPin = enteredPin.slice(0, -1);
+            updateDots();
+        }
+
+        function checkPin() {
+            if (enteredPin === correctPin) {
+                // Show unlock animation
+                document.body.innerHTML = `
+                 
+                `;
+
+                // Add fade out animation
+                const style = document.createElement('style');
+                style.innerHTML = `@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }`;
+                document.head.appendChild(style);
+
+                // Redirect after animation
+                setTimeout(() => {
+                    window.location.href = 'secondpage.html';
+                }, 0);
+            } else {
+                passcodeScreen.style.animation = 'shake 0.4s';
+                setTimeout(() => {
+                    passcodeScreen.style.animation = '';
+                    enteredPin = "";
+                    updateDots();
+                }, 600);
+            }
+        }
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-12px); } 75% { transform: translateX(12px); } }`;
+        document.head.appendChild(style);
+
+        // Keyboard support
+        document.addEventListener('keydown', e => {
+            if (e.key >= '0' && e.key <= '9') {
+                enteredPin += e.key;
+                updateDots();
+                if (enteredPin.length === 6) checkPin();
+            }
+            if (e.key === 'Backspace') deleteDigit();
+        });
+    </script>
+</body>
+
+</html>
